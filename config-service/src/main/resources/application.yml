@@ -6,8 +6,8 @@ spring:
     config:
       server: 
         git:
-          uri: https://github.com/MiguelAngelLiera/dwb_2023-2_Proyecto_Final.git
-          search-paths: api
+          uri: https://ivan_saavedra@bitbucket.org/ivan_saavedra/config-data.git
+          search-paths: config-data/api
           default-label: "master"
           
   security:
