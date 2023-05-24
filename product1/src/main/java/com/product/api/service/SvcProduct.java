@@ -14,7 +14,7 @@ public interface SvcProduct {
 	public ApiResponse updateProduct(Product in, Integer id);
 	public ApiResponse updateProductStock(String gtin, Integer stock);
 	public ApiResponse deleteProduct(Integer id);
-    public List<Product> getListProducts(Integer category_id);
+    public List<DtoProductList> getListProducts(Integer category_id);
 	public ApiResponse updateProductCategory(String gtin, int category_id);
 
 }

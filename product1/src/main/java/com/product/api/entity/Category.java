@@ -38,19 +38,17 @@ public class Category{
     @JsonIgnore
     private Integer status;
 
-    public Category(){
-        this.category_id = null;
-        this.category = "";
-        this.acronym = "";
-        this.status = 1;
-    }
+    public Category() {
+		super();
+	}
 
-    public Category(Integer category_id, String category, String acronym){
-        this.category_id = category_id;
-        this.category = category;
-        this.acronym = acronym;
-        this.status = 1;
-    }
+	public Category(Integer categoryId, @NotNull String category,
+			@Min(value = 0, message = "status must be 0 or 1") @Max(value = 1, message = "status must be 0 or 1") Integer status) {
+		super();
+		this.categoryId = categoryId;
+		this.category = category;
+		this.status = status;
+	}
 
     public String toString(){
         String c = "{\n\t";
@@ -60,7 +58,7 @@ public class Category{
         c += this.status + ", \n\t";
         return c;
     }
-    
+
     public Integer getCategory_id() {
         return this.category_id;
     }
@@ -92,4 +90,27 @@ public class Category{
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+	public int hashCode() {
+		return Objects.hash(category, categoryId, status);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		return Objects.equals(category, other.category) && Objects.equals(categoryId, other.categoryId)
+				&& Objects.equals(status, other.status);
+	}
+
+	@Override
+	public String toString() {
+		return "Category [categoryId=" + categoryId + ", category=" + category + ", status=" + status + "]";
+	}
 }
