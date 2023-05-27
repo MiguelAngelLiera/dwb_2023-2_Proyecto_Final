@@ -25,11 +25,23 @@ public class SvcCustomerImp implements SvcCustomer {
 	@Autowired
 	RepoCustomerList repoCustomerList;
 
+	/**
+     * Obtiene una lista de clientes activos.
+     *
+     * @return Una lista de objetos DtoCustomerList que representan los clientes activos.
+     */
 	@Override
 	public List<DtoCustomerList> getCustomers() {
 		return repoCustomerList.findByStatus(1);
 	}
 
+	/**
+     * Obtiene un cliente por su RFC.
+     *
+     * @param rfc El RFC del cliente a obtener.
+     * @return Un objeto Customer que representa el cliente.
+     * @throws ApiException si el cliente no existe.
+     */
 	@Override
 	public Customer getCustomer(String rfc) {
 		Customer customer = repo.findByRfcAndStatus(rfc, 1);
@@ -38,6 +50,13 @@ public class SvcCustomerImp implements SvcCustomer {
 		return customer;
 	}
 
+	/**
+     * Crea un nuevo cliente.
+     *
+     * @param in El objeto Customer que contiene los datos del cliente a crear.
+     * @return Un objeto ApiResponse que indica el resultado de la operación de creación de cliente.
+     * @throws ApiException si el RFC o el correo electrónico del cliente ya existen.
+     */
 	@Override
 	public ApiResponse createCustomer(Customer in) {
 		in.setStatus(1);
@@ -53,6 +72,14 @@ public class SvcCustomerImp implements SvcCustomer {
 		return new ApiResponse("customer created");
 	}
 
+	/**
+    * Actualiza los datos de un cliente existente.
+    *
+    * @param in El objeto Customer que contiene los nuevos datos del cliente.
+    * @param id El ID del cliente a actualizar.
+    * @return Un objeto ApiResponse que indica el resultado de la operación de actualización de cliente.
+    * @throws ApiException si el cliente no existe o si el RFC o el correo electrónico ya existen.
+    */
 	@Override
 	public ApiResponse updateCustomer(Customer in, Integer id) {
 		getCustomer(in.getRfc()); // Si el customer no existe mandará API Exception
@@ -73,6 +100,13 @@ public class SvcCustomerImp implements SvcCustomer {
 		return new ApiResponse("customer updated");
 	}
 
+	/**
+     * Elimina un cliente.
+     *
+     * @param id El ID del cliente a eliminar.
+     * @return Un objeto ApiResponse que indica el resultado de la operación de eliminación de cliente.
+     * @throws ApiException si el cliente no se puede eliminar.
+     */
 	@Override
 	public ApiResponse deleteCustomer(Integer id) {
 		if (repo.deleteCustomer(id) == 0)
@@ -80,6 +114,14 @@ public class SvcCustomerImp implements SvcCustomer {
 		return new ApiResponse("customer removed");
 	}
 
+	/**
+     * Actualiza la región de un cliente.
+     *
+     * @param region El objeto Region que representa la nueva región del cliente.
+     * @param id El ID del cliente al que se actualizará la región.
+     * @return Un objeto ApiResponse que indica el resultado de la operación de actualización de región de cliente.
+     * @throws ApiException si la región no existe.
+     */
 	@Override
 	public ApiResponse updateCustomerRegion(Region region, Integer id) {
 		try {

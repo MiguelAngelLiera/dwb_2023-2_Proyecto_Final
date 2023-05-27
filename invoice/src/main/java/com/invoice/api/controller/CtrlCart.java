@@ -21,18 +21,36 @@ import com.invoice.api.entity.Cart;
 import com.invoice.api.service.SvcCart;
 import com.invoice.exception.ApiException;
 
+/**
+ * Esta clase es un controlador de la API REST para operaciones relacionadas con el carrito de compras.
+ */
 @RestController
 @RequestMapping("/cart")
 public class CtrlCart {
 
+
 	@Autowired
 	SvcCart svcCart;
 
+	 /**
+     * Obtiene el carrito de compras para el RFC especificado.
+     *
+     * @param rfc El RFC del cliente.
+     * @return ResponseEntity con una lista de objetos Cart y el estado HTTP 200 (OK).
+     */
 	@GetMapping("/{rfc}")
 	public ResponseEntity<List<Cart>> getCart(@PathVariable("rfc") String rfc){
 		return new ResponseEntity<>(svcCart.getCart(rfc), HttpStatus.OK);
 	}
-	
+
+	 /**
+     * Agrega un elemento al carrito de compras.
+     *
+     * @param in            El objeto Cart a agregar.
+     * @param bindingResult Resultado de la validación.
+     * @return ResponseEntity con un objeto ApiResponse y el estado HTTP 201 (CREATED).
+     * @throws ApiException Si hay errores de validación.
+     */
 	@PostMapping
 	public ResponseEntity<ApiResponse> addToCart(@Valid @RequestBody Cart in, BindingResult bindingResult){
 		if(bindingResult.hasErrors())
@@ -40,11 +58,24 @@ public class CtrlCart {
 		return new ResponseEntity<>(svcCart.addToCart(in),HttpStatus.CREATED);
 	}
 	
+	
+    /**
+     * Elimina un elemento del carrito de compras.
+     *
+     * @param id El ID del elemento a eliminar.
+     * @return ResponseEntity con un objeto ApiResponse y el estado HTTP 200 (OK).
+     */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> removeFromCart(@PathVariable("id") Integer id){
 		return new ResponseEntity<>(svcCart.removeFromCart(id), HttpStatus.OK);
 	}
 	
+	 /**
+     * Elimina todo el carrito de compras para el RFC especificado.
+     *
+     * @param rfc El RFC del cliente.
+     * @return ResponseEntity con un objeto ApiResponse y el estado HTTP 200 (OK).
+     */
 	@DeleteMapping("/clear/{rfc}")
 	public ResponseEntity<ApiResponse> deleteCart(@PathVariable("rfc") String rfc){
 		return new ResponseEntity<>(svcCart.clearCart(rfc), HttpStatus.OK);
